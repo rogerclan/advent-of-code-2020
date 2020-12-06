@@ -4,13 +4,13 @@ const data = fs.readFileSync("./input.txt", "utf-8").split("\n")
 let uniqueTotal = 0
 let groupVotes = ""
 
-function uniqueOnly(value, index, self) {
+function dedup(value, index, self) {
     return self.indexOf(value) === index;
 }
 
 data.forEach(person => {
     if (person === "") {
-        uniqueTotal += groupVotes.split("").filter(uniqueOnly).length
+        uniqueTotal += groupVotes.split("").filter(dedup).length
         groupVotes = ""
     } else {
         groupVotes += person
@@ -19,7 +19,7 @@ data.forEach(person => {
 
 console.log(`Total unique group votes sum was ${uniqueTotal}`)
 
-function intersection(first, second) {
+function findMatches(first, second) {
     return first.filter(value => second.includes(value))
 }
 
@@ -31,7 +31,7 @@ function getSumOfAgreedVotes(votes) {
         // lets see where we all agreed
         let vote = votes[0].split("")
         for (let i = 1; i < votes.length; i++) {
-            vote = intersection(vote, votes[i])
+            vote = findMatches(vote, votes[i])
         }
     return vote.length
     }
