@@ -3,26 +3,28 @@ const data = fs.readFileSync("./input.txt", "utf-8").trim().split("\n")
 
 let seats = []
 
-function getRow(seq) {
-    let row = seq.map(l => l === "B" ? "1" : "0").join("")
-    return parseInt(row, 2)
+function convertToBinary(ticket) {
+    ticket = ticket.split("").map(l => l === "R" || l === "B" ? "1" : "0").join("")
+    return [ticket.substr(0, 7), ticket.substr(7, 3)]
 }
 
-function getSeat(seq) {
-    let seat = seq.map(l => l === "R" ? "1" : "0").join("")
-    return parseInt(seat, 2)
+function binaryToInt(value) {
+    return  parseInt(value, 2)
 }
 
-data.forEach(item => {
-    const row = getRow(item.substr(0, 7).split(""))
-    const seat = getSeat(item.substr(7, 3).split(""))
-    seats.push(row * 8 + seat)
-})
-seats = seats.sort((a,b) => {
+function ascending(a,b) {
     if(a>b) return 1
     if(a<b) return -1
     else return 0
+}
+
+data.forEach(ticket => {
+    const [row, seat] = convertToBinary(ticket)
+    seats.push(binaryToInt(row) * 8 + binaryToInt(seat))
 })
+
+seats.sort(ascending)
+
 console.log("Last seat is " + seats[seats.length -1])
 // Can't be first (0) or last seat (seats.length -1)
 for(let i = 1; i < seats.length - 1; i++) {
