@@ -1,6 +1,14 @@
 const fs = require("fs");
 const data = fs.readFileSync("./input.txt", "utf-8").trim().split("\n")
 
+function getInstruction(line) {
+    const instruction = line.split(" ")
+    return {
+        cmd: instruction[0],
+        value: parseInt(instruction[1])
+    }
+}
+
 function toggle(value) {
     return (/^nop/.test(value)) ? value.replace("nop", "jmp") : value.replace("jmp", "nop");
 }
@@ -10,10 +18,8 @@ function processInstructions(instructions) {
     let instructionsProcessed = []
     let currentIndex = 0
     while(!instructionsProcessed.includes(currentIndex) && currentIndex < instructions.length) {
-        let instruction = instructions[currentIndex].split(" ")
         instructionsProcessed.push(currentIndex)
-        const cmd = instruction[0]
-        const value = parseInt(instruction[1])
+        const {cmd, value} = getInstruction(instructions[currentIndex])
         if (cmd === "nop") {
             currentIndex++
         } else if(cmd === "acc") {
@@ -23,22 +29,19 @@ function processInstructions(instructions) {
             currentIndex += value
         }
     }
-    return [accumulator, currentIndex]
+    return {accumulator, lastIndex: currentIndex}
 }
 
-console.log("The value of the accumulator is " + processInstructions(data)[0])
+console.log("The value of the accumulator is " + processInstructions(data).accumulator)
 
 let changedIndex = 0
-let finalIndex = 0
-let finalAccumulator = 0
+let lastIndex = 0
+let accumulator = 0
 
-while(finalIndex < data.length) {
+while(lastIndex < data.length) {
     do {changedIndex++} while (!["jmp", 'nop'].includes(data[changedIndex].split(" ")[0]))
-    const updated = data.map((v,i) => i !== changedIndex ? v : toggle(v))
-    let [accumulator, index] = processInstructions(updated)
-    finalIndex = index
-    finalAccumulator = accumulator
+    ({accumulator, lastIndex} = processInstructions(data.map((v,i) => i !== changedIndex ? v : toggle(v))))
 }
 
 console.log(`After toggling the command on index ${changedIndex} `)
-console.log(`from ${data[changedIndex].split(" ")[0]} to ${toggle(data[changedIndex]).split(" ")[0]} the final accumulator was ${finalAccumulator}`)
+console.log(`from ${data[changedIndex].split(" ")[0]} to ${toggle(data[changedIndex]).split(" ")[0]} the final accumulator was ${accumulator}`)
