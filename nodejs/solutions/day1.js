@@ -1,5 +1,5 @@
-const fs = require("fs")
-const data = fs.readFileSync("./input.txt", "utf-8").split("\n").map(n => parseInt(n))
+const {getInput} = require("../utility/File")
+const data = getInput(true).map(n => parseInt(n))
 
 function byTwo() {
   for (let i = 0; i < data.length - 1; i++) {
@@ -7,7 +7,8 @@ function byTwo() {
       const x = data[i]
       const y = data[ii]
       if (x + y === 2020) {        
-        console.log(`${x} x ${y} = ${x*y}`)
+        console.log(`${x} and ${y} added are ${x+y}`)
+        console.log(`and multiplied are ${x*y}`)
         return
       }
     }
@@ -22,7 +23,8 @@ function byThree() {
         const y = data[ii]
         const z = data[iii]
         if (x + y + z === 2020) {        
-          console.log(`${x} x ${y} + ${z} = ${x*y*z}`)
+          console.log(`${x}, ${y} and ${z} added are ${x+y+z}`)
+          console.log(`and multiplied are ${x*y*z}`)
           return
         }
       }

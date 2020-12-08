@@ -1,5 +1,5 @@
-const fs = require("fs");
-const data = fs.readFileSync("./input.txt", "utf-8").trim().split("\n")
+const {getInput} = require("../utility/File")
+const data = getInput(true)
 
 let bags = []
 

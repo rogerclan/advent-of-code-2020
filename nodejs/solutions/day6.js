@@ -1,5 +1,5 @@
-const fs = require("fs");
-const data = fs.readFileSync("./input.txt", "utf-8").split("\n")
+const {getInput} = require("../utility/File")
+const data = getInput()
 
 let uniqueTotal = 0
 let groupVotes = ""

@@ -1,6 +1,6 @@
-const fs = require("fs");
-const data = fs.readFileSync("./input.txt", "utf-8").split("\n")
-const Passport = require("./Passport")
+const {getInput} = require("../utility/File")
+const data = getInput()
+const Passport = require("../models/Passport")
 
 const passports = []
 let currentPassport = new Passport()
@@ -16,6 +16,6 @@ data.forEach(line => {
 
 const validPassports = passports.filter(passport => passport.isValid())
 
-console.log(validPassports.length)
+console.log(`There are ${validPassports.length} valid passports.`)
 
-console.log(validPassports.filter(passport => passport.extendedValidation()).length)
+console.log(`There are ${validPassports.filter(passport => passport.extendedValidation()).length} valid passports with the required fields.`)

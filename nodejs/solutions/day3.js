@@ -1,5 +1,5 @@
-const fs = require("fs");
-const data = fs.readFileSync("./input.txt", "utf-8").split("\n")
+const {getInput} = require("../utility/File")
+const data = getInput()
 
 function findTrees(right, down) {
     let trees = 0
@@ -15,7 +15,7 @@ function findTrees(right, down) {
 }
 
 // Question 1
-console.log(findTrees(3,1))
+console.log(`You would encounter ${findTrees(3,1)} trees.`)
 
 // Question 2
 const coords = [
@@ -30,4 +30,4 @@ coords.forEach(coord => {
     const trees = findTrees(coord.right, coord.down)
     total *= trees
 })
-console.log(total)
+console.log(`For all the slopes you would encounter ${total} trees.`)
