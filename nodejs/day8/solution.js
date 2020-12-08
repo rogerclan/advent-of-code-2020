@@ -33,10 +33,7 @@ let finalIndex = 0
 let finalAccumulator = 0
 
 while(finalIndex < data.length) {
-    changedIndex++
-    while (!["jmp", 'nop'].includes(data[changedIndex].split(" ")[0])) {
-        changedIndex++
-    }
+    do {changedIndex++} while (!["jmp", 'nop'].includes(data[changedIndex].split(" ")[0]))
     const updated = data.map((v,i) => i !== changedIndex ? v : toggle(v))
     let [accumulator, index] = processInstructions(updated)
     finalIndex = index
