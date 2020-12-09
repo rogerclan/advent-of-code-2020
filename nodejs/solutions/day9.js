@@ -11,13 +11,14 @@ function checkIndex(index, options, preamble) {
     return false
 }
 
-function getNotSum(options, preamble) {
-    let found = true
-    let index = preamble - 1
-    do {
-        found = checkIndex(++index, options, preamble)
-    } while (found && index < options.length)
-    return options[index]
+function getInvalid(options, preamble) {
+    let index = preamble
+    while (index < options.length) {
+        if(!checkIndex(index, options, preamble)) return options[index]
+        index++
+    }
+    console.log("No invalid number found.")
+    process.exit(2)
 }
 
 function getRange(start, end, options) {
@@ -55,6 +56,6 @@ function getContiguous(value, options) {
 
 }
 
-const invalid = getNotSum(data, 25)
+const invalid = getInvalid(data, 25)
 console.log(`First invalid number is ${invalid}`)
 console.log(`The sum of the contiguous set of numbers is ${getContiguous(invalid, data)}`)
